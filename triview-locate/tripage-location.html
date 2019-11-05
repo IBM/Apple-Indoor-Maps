@@ -1,0 +1,222 @@
+ <!-- IBM Confidential‌ - OCO Source Materials‌ - (C) COPYRIGHT IBM CORP. 2017 - The source code for this program is not published or otherwise‌ divested of its trade secrets, irrespective of what has been‌ deposited with the U.S. Copyright Office. -->
+
+<link rel="import" href="../triplat-graphic/triplat-graphic.html">
+<link rel="import" href="../triplat-ds/triplat-ds.html">
+<link rel="import" href="../triplat-loading-indicator/triplat-loading-indicator.html">
+<link rel="import" href="../triplat-zoom-slider/triplat-zoom-slider.html">
+
+<link rel="import" href="../triblock-search-popup/triblock-image-info-card.html">
+<link rel="import" href="../triblock-responsive-layout/triblock-view-responsive-behavior.html">
+
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+
+<dom-module id="tripage-location">
+	<template>
+		<style include="shared-locate-app-styles shared-graphic-styles">
+
+			:host {
+				@apply(--layout-vertical);
+				position: relative;
+				height: 100%;
+			}
+
+			.floor-graphic-container {
+				@apply(--layout-flex);
+				@apply(--layout-relative);
+				@apply(--layout-vertical);
+				margin: 5px;
+				min-height: 0;
+			}
+
+			.floor-graphic {
+				@apply(--layout-flex);
+				@apply(--layout-vertical);
+
+				user-select: none;
+				cursor: default;
+				--triplat-graphic-highlight-1: {
+					fill: #41D6C3;
+					fill-opacity: .8;
+				}
+				--triplat-graphic-interactive-selectable: {
+					cursor: pointer;
+				}
+				--triplat-graphic-selectable: {
+					fill: white;
+					fill-opacity: 1;
+				}
+				--triplat-graphic-interactive-selected: {
+					stroke: var(--tri-primary-dark-color);
+					stroke-width: 10px;
+				}
+			}
+
+			.page-main {
+				@apply(--layout-vertical);
+				@apply(--layout-flex);
+				@apply(--layout-center);
+				background-color: var(--tri-primary-content-background-color);
+				box-sizing: border-box; 
+			}
+
+			.page-wrap {
+				@apply(--layout-vertical);
+				@apply(--layout-flex);
+				width: 100%;
+			}
+
+			:host(:not([small-screen-width])) .empty-placeholder {
+				padding-top: 75px;
+			}
+
+			:host([small-screen-width]) .empty-placeholder {
+				padding-top: 50px;
+			}
+
+			:host[small-screen-width][maximize] {
+				@apply --layout-fit;
+				background-color: white;
+				z-index: 1;
+			}
+
+		</style>
+
+		<triplat-loading-indicator show="[[graphicLoading]]"></triplat-loading-indicator>
+		<triplat-ds id="allSpaceLabelStyle" name="allSpaceLabelStyle" data="{{_spaceLabelStyles}}"
+				force-server-filtering loading="{{_loadingGraphicLabels}}">
+			<triplat-query>
+				<triplat-query-filter name="ID" operator="equals" value="triSpaceClass002">
+				</triplat-query-filter>
+			</triplat-query>
+		</triplat-ds>
+
+		<div class="page-main">
+			<div class="page-wrap">
+				<div class="floor-graphic-container" hidden$="[[!hasGraphic]]">
+					<triplat-graphic id="floorplan" class="floor-graphic" record-id="[[floorRecordId]]" 
+						has-graphic="{{hasGraphic}}" svg-loaded="{{_svgLoaded}}">
+						<triplat-graphic-highlight highlighted="[[_highlightSpace]]"></triplat-graphic-highlight>
+						<triplat-graphic-label id="graphicLabel" label-id="[[_computeLabelId(_spaceLabelStyles.*)]]">
+						</triplat-graphic-label>
+						<triplat-graphic-zoomable scale="{{_zoomScale}}" cached></triplat-graphic-zoomable>
+						<triplat-graphic-pin icon="[[pinName]]" pins="[[pinDetails]]" record-id-attr-name="spaceRecordId"></triplat-graphic-pin>
+					</triplat-graphic>
+					<div class="min-max-icon" hidden$="[[!smallScreenWidth]]">
+						<paper-icon-button class="minMaxIcon" on-tap="_handleMinMaxIconTapped" icon="[[_computeMaximizeIcon(maximize)]]"></paper-icon-button>
+					</div>
+				</div>
+
+				<div class="graphic-footer-container" hidden$="{{_hideZoomSlider(hasGraphic, smallScreenWidth)}}">
+					<triplat-zoom-slider class="slider" min="0.01" max="1.5" step="0.1" 
+							value="{{_zoomScale}}">
+					</triplat-zoom-slider>
+				</div>
+ 
+				<div class="page-main empty-placeholder" hidden$="[[hasGraphic]]">
+					<div>Floor plan not available.</div>
+				</div>
+
+			</div>
+		</div>
+	</template>
+	<script>
+		Polymer({
+
+			is: "tripage-location",
+
+			behaviors: [
+				TriBlockViewResponsiveBehavior,
+				Polymer.IronResizableBehavior
+			],
+
+			properties: {
+				floorRecordId: String,
+				
+				/* 
+				 * Must contain spaceRecordId property
+				 */
+				pinDetails: Object,
+
+				maximize: {
+					type: Boolean,
+					value: false,
+					reflectToAttribute: true
+				},
+				
+				pinName: {
+					type: String,
+					value: "pin-person"
+				},
+
+				hasGraphic: {
+					type: Boolean,
+					notify: true,
+				},
+
+				opened: {
+					type: Boolean,
+					value: false
+				},
+
+				_svgLoaded: {
+					type: Boolean
+				}
+			},
+
+			observers: [
+				"_setHighlightSpace(pinDetails)",
+				"_handleGraphicChange(opened, hasGraphic, _svgLoaded)",
+				"_handleMaximizeChange(maximize, opened, hasGraphic, _svgLoaded)",
+			],
+
+			_setHighlightSpace: function(pinDetails){
+				if (pinDetails) {
+					this.set('_highlightSpace', { _id: pinDetails.spaceRecordId });
+				} else {
+					this.set('_highlightSpace', { _id: "" });
+				}
+			},
+
+			_computeLabelId: function (change) {
+				var labelId = null;
+				if (change.base && change.base.length > 0) {
+					return change.base[0]._id;
+				}
+				return labelId;
+			},
+
+			_hideZoomSlider: function(hasGraphic, smallScreenWidth){
+				return !smallScreenWidth ? !hasGraphic : true;
+			},
+
+			_handleMinMaxIconTapped: function(){
+				var isMaximize= !this.maximize;
+				if(isMaximize){
+					this.fire("maximize-location-floor-plan");
+				}else {
+					this.fire("minimize-location-floor-plan");
+				}
+			},
+
+			_computeMaximizeIcon: function(maximize){
+				return maximize ? "ibm-glyphs:minimize" : "ibm-glyphs:maximize";
+			},
+
+			_handleGraphicChange: function (opened, hasGraphic, svgLoaded) {
+				if (opened && hasGraphic && svgLoaded) {
+					this.$.floorplan.refreshViewBox();
+				}
+			},
+
+			_handleMaximizeChange: function(maximize, opened, hasGraphic, svgLoaded) {
+				if (opened && hasGraphic && svgLoaded) {
+					Polymer.RenderStatus.afterNextRender(this, function () {
+						this.notifyResize();
+					});
+				}
+			}
+		});
+	</script>
+</dom-module>

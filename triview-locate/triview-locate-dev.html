@@ -1,0 +1,130 @@
+<!-- IBM Confidential‌ - OCO Source Materials‌ - (C) COPYRIGHT IBM CORP. 2017 - The source code for this program is not published or otherwise‌ divested of its trade secrets, irrespective of what has been‌ deposited with the U.S. Copyright Office. -->
+
+<link rel="import" href="../tricore-url/tricore-url.html">
+<link rel="import" href="../tricore-lazy-loading-behavior/tricore-lazy-loading-behavior.html">
+<link rel="import" href="../tricore-home-app-behavior/tricore-home-app-behavior.html">
+<link rel="import" href="../triplat-view-behavior/triplat-view-behavior.html">
+<link rel="import" href="../triblock-app-layout/triblock-app-layout.html">
+<link rel="import" href="../triblock-app-layout/triblock-app-layout-banner-popup-behavior.html">
+
+<link rel="import" href="trilazy-imports.html">
+
+<link rel="import" href="tristyles-locate-app.html">
+
+<dom-module id="triview-locate">
+	<template>
+		<style include="shared-app-layout-styles">
+			triblock-app-layout {
+				--triblock-app-layout-mobile-drawer-z-index: 104;
+			}
+
+			trimain-locate {
+				@apply(--layout-flex);
+			}
+		</style>
+
+		<tricore-url id="triurl" hidden></tricore-url>
+
+		<triblock-app-layout 
+			disable-edge-swipe
+			disable="[[disableHeader]]"
+			home-app="[[homeApp]]"
+			app-label="[[homeAppLabel]]"
+			mobile-page-label="[[mobilePageLabel]]"
+			show-mobile-back-button="[[showMobileBackButton]]"
+			hide-signout-button="[[_isEmbedded]]">
+
+			<template is="dom-if" if="[[homeApp]]">
+				<triblock-banner-button tap-handler="_navigateHome" home></triblock-banner-button>
+			</template>
+			<triblock-banner-button back tap-handler="_handleBackButtonTap"></triblock-banner-button>
+
+			<trimain-locate id="locateMain" route="locationContext" content
+				home-app="[[homeApp]]" override-building-id="[[overrideBuildingId]]">
+			</trimain-locate>
+
+		</triblock-app-layout>
+	</template>
+	<script>
+		Polymer({
+
+			is: "triview-locate",
+			
+			behaviors: [
+				TriPlatViewBehavior, 
+				TriLazyLoadingBehavior,
+				TriBlockAppLayoutBannerPopupBehavior,
+				TriHomeAppBehavior
+			],
+
+			properties: {
+				disableHeader: {
+					type: Boolean,
+					value: false
+				},
+				overrideBuildingId: String
+			},
+
+			listeners: {
+				'navigate-home': '_navigateHome',
+			},
+
+			attached: function() {
+				this._readOverrideBuildingIdFromUrl();
+				Polymer.RenderStatus.afterNextRender(this, function(){
+					this._loadMainPage();
+
+					/* 
+					 * Hide the navbar if in iframe; used in Work Task Services.
+					 */
+					if (!this.disableHeader) {
+						var isInIframe = window.frameElement && window.frameElement.nodeName == "IFRAME";
+						this.set("_isEmbedded", isInIframe);
+					}
+					document.querySelector("body").style.height = "100%";
+				});
+			},
+
+			_navigateHome: function(e) {
+				if (this.homeUrl) {
+					location.assign(this.homeUrl);
+				} else {
+					this.fire('navigate-default', {}, {node: this.$.locateMain});
+				}
+			},
+
+			_loadMainPage: function() {
+				this.loadResource(this.$.locateMain, "trimain-locate.html");
+			},
+
+			_getDefaultAppLabel: function() {
+				var __dictionary__appLabel =  "Locate";
+				return __dictionary__appLabel;
+			},
+
+			_handleBackButtonTap: function() {
+				var isPopupOpened = this.isPopupOpened();
+				if(isPopupOpened){
+					this.managePopupBackBehavior();
+				}else{
+					this.navigateToPreviousRoutedPage();
+				}
+			},
+
+			_handleBackButtonTap: function() {
+				this.managePopupBackBehavior();
+			},
+
+			_readOverrideBuildingIdFromUrl: function() {
+				if (this.overrideBuildingId) {
+					return;
+				}
+				var overrideBuildingId = this._getURLParameter("overrideBuildingId");
+				if (overrideBuildingId) {
+					this.overrideBuildingId = overrideBuildingId;
+				}
+			}
+
+		});
+	</script>
+</dom-module>

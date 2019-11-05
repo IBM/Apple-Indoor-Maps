@@ -1,0 +1,52 @@
+<!-- IBM Confidential‌ - OCO Source Materials‌ - (C) COPYRIGHT IBM CORP. 2018 - The source code for this program is not published or otherwise‌ divested of its trade secrets, irrespective of what has been‌ deposited with the U.S. Copyright Office. -->
+
+<link rel="import" href="../paper-item/paper-item-behavior.html">
+
+<link rel="import" href="../triplat-icon/triplat-icon.html">
+
+<link rel="import" href="../triblock-search-popup/triblock-image-info-card.html">
+
+<dom-module id="tricomp-floor-directory-card">
+	<template>
+		<style>
+			.details-container {
+				@apply --layout-vertical;
+			}
+		</style>
+
+		<triblock-image-info-card index="[[index]]" data="[[person]]" placeholder-icon="ibm:user" circular-image image-align-top>
+			<div class="details-container">
+				<span class="tri-h3">[[person.name]]</span>
+				<span>[[person.title]]</span>
+				<span>[[person.organization]]</span>
+				<span style="font-weight: bold">[[person.room]]</span>
+			</div>
+		</triblock-image-info-card>
+	</template>
+	<script>
+		Polymer({
+
+			is: "tricomp-floor-directory-card",
+
+			behaviors: [
+				Polymer.PaperItemBehavior
+			],
+
+			hostAttributes: {
+				role: 'option',
+				tabindex: '0'
+			},
+
+			properties: {
+				person: {
+					type: Object
+				},
+
+				index: {
+					type: Number
+				}
+			}
+
+		});
+	</script>
+</dom-module>
