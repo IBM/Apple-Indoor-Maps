@@ -1,0 +1,24 @@
+<!-- IBM Confidential‌ - OCO Source Materials‌ - (C) COPYRIGHT IBM CORP. 2017 - The source code for this program is not published or otherwise‌ divested of its trade secrets, irrespective of what has been‌ deposited with the U.S. Copyright Office. -->
+<!-- This is a lazy-loaded component, DO NOT add imports here, add them to its corresponding -imports.html file. -->
+<dom-module id="triapp-locate">
+	<template>
+		<triview-locate
+			model-and-view="triLocate"
+			instance-id="-1"
+			current-user="[[currentUser]]"
+			disable-header
+			home-app="[[homeApp]]"
+			 override-building-id="[[overrideBuildingId]]">
+		</triview-locate>
+	</template>
+	<script>
+		Polymer({
+			is: "triapp-locate",
+			properties: {
+				currentUser: Object,
+				homeApp: String,
+				overrideBuildingId: String
+			}
+		});
+	</script>
+</dom-module>

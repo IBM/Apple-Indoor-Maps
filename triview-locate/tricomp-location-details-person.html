@@ -1,0 +1,117 @@
+<!-- IBM Confidential‌ - OCO Source Materials‌ - (C) COPYRIGHT IBM CORP. 2017-2018 - The source code for this program is not published or otherwise‌ divested of its trade secrets, irrespective of what has been‌ deposited with the U.S. Copyright Office. -->
+
+<link rel="import" href="../iron-pages/iron-pages.html">
+
+<link rel="import" href="../triblock-tabs/triblock-tabs.html">
+
+<link rel="import" href="tristyles-locate-app.html">
+<link rel="import" href="tribehav-location-details.html">
+<link rel="import" href="tricomp-floor-directory-card.html">
+<link rel="import" href="tripage-location.html">
+<link rel="import" href="tripage-key-rooms.html">
+<link rel="import" href="tripage-floor-directory.html">
+
+<dom-module id="tricomp-location-details-person">
+	<template>
+		<style include="shared-app-layout-styles location-details-styles locate-tabs">
+			:host[small-screen-height] {
+				@apply(--layout-block);
+			}
+		</style>
+
+		<triplat-ds id="keyRooms" name="keyRooms" data="{{_keyRooms}}" force-server-filtering>
+			<triplat-query>
+				<triplat-query-filter name="floorId" operator="equals" value="[[floorRecordId]]" ignore-if-blank></triplat-query-filter>
+			</triplat-query>
+		</triplat-ds>
+
+		<triplat-ds id="floorDirectory" name="peopleLookup" data="{{_floorDirectory}}" loading="{{_loading}}" disable>
+			<triplat-query>
+				<triplat-query-scroll-page scroller="[[_scroller]]" size="50" disable-auto-fetch></triplat-query-scroll-page>
+				<triplat-query-filter name="floorId" operator="equals" value="[[floorRecordId]]" required></triplat-query-filter>
+			</triplat-query>
+		</triplat-ds>
+
+		<triplat-route id="personLocationRoute" name="personLocation" path="/location/:maximize" 
+			params="{{_locationRouteParams}}" on-route-active="_onLocationRouteActive"></triplat-route>
+		<triplat-route id="personKeyRoomsRoute" name="personKeyRooms" path="/keyRooms/:maximize" 
+			params="{{_keyRoomsRouteParams}}" on-route-active="_onKeyRoomsRouteActive"></triplat-route>
+		<triplat-route id="personFloorDirectoryRoute" name="personFloorDirectory" path="/floorDirectory/:maximize"
+			on-route-active="_onFloorDirectoryRouteActive"></triplat-route>
+
+		<triblock-tabs hide-scroll-buttons fit-container="[[smallScreenWidth]]">
+			<triblock-tab id="locationTab" triplat-route-id="personLocationRoute" 
+				triplat-route-params="[[_minimizedRouteParams]]" label="Location"></triblock-tab>
+			<template is="dom-if" if="[[_showKeyRoomTab]]" restamp>
+				<triblock-tab id="keyRoomsTab" triplat-route-id="personKeyRoomsRoute" 
+					triplat-route-params="[[_minimizedRouteParams]]" label="Key Rooms"></triblock-tab>
+			</template>
+			<template is="dom-if" if="[[_showFloorDirectoryTab]]" restamp>
+				<triblock-tab id="floorDirTab" triplat-route-id="personFloorDirectoryRoute"
+					triplat-route-params="[[_minimizedRouteParams]]"label="Floor Directory"></triblock-tab>
+			</template>
+		</triblock-tabs>
+
+		<triplat-route-selector>
+			<iron-pages class="floor-details" selected-attribute="opened">
+				<tripage-location id="locationPage" 
+								route="personLocation"
+								floor-record-id="[[floorRecordId]]"
+								pin-details="[[pinDetails]]"
+								maximize="[[_computeMaximizeFloorPlan(_locationRouteParams.maximize)]]"
+								has-graphic="{{_hasGraphic}}"
+								on-maximize-location-floor-plan="_handleMaximizeLocationFloorPlan"
+								on-minimize-location-floor-plan="_handleMinimizeLocationFloorPlan"></tripage-location>
+
+				<tripage-key-rooms id="keyRoomsPage" 
+									route="personKeyRooms"
+									floor-record-id="[[floorRecordId]]"
+									pin-details="[[pinDetails]]" 
+									key-rooms="[[_keyRooms]]" 
+									maximize="[[_computeMaximizeFloorPlan(_keyRoomsRouteParams.maximize)]]"
+									on-maximize-key-rooms-floor-plan="_handleMaximizeKeyRoomsFloorPlan"
+									on-minimize-key-rooms-floor-plan="_handleMinimizeKeyRoomsFloorPlan"></tripage-key-rooms>
+									
+				<tripage-floor-directory id="floorDirPage" route="personFloorDirectory" floor-record-id="[[floorRecordId]]" 
+					person-record-id="[[personRecordId]]" floor-directory="[[_floorDirectory]]" scroller="{{_scroller}}"
+					on-person-selected="_handlePersonSelected"></tripage-floor-directory>			
+			</iron-pages>
+		</triplat-route-selector>
+
+	</template>
+	<script>
+		Polymer({
+
+			is: "tricomp-location-details-person",
+
+			behaviors: [
+				TriLocationDetailsBehavior
+			],
+
+			_handlePersonSelected: function(e) {
+				this.$.personFloorDirectoryRoute.navigate({ personId: e.detail._id, maximize: "min"});
+			},
+
+			_handleMaximizeLocationFloorPlan: function(e) {
+				e.stopPropagation();
+				this.$.personLocationRoute.navigate({maximize: "max"}, true);
+			},
+
+			_handleMinimizeLocationFloorPlan: function(e) {
+				e.stopPropagation();
+				this.$.personLocationRoute.navigate({ maximize: "min"}, true);
+			},
+
+			_handleMaximizeKeyRoomsFloorPlan: function(e) {
+				e.stopPropagation();
+				this.$.personKeyRoomsRoute.navigate({maximize: "max"}, true);
+			},
+
+			_handleMinimizeKeyRoomsFloorPlan: function(e) {
+				e.stopPropagation();
+				this.$.personKeyRoomsRoute.navigate({ maximize: "min"}, true);
+			}
+
+		});
+	</script>
+</dom-module>

@@ -1,0 +1,77 @@
+<!-- <link rel="import" href="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7H59WeBjyyPy5S6NfLgAqAk70kFawoVo"/> -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7H59WeBjyyPy5S6NfLgAqAk70kFawoVo"></script>
+<!-- <script type="text/javascript" src="https://maps.gstatic.com/intl/en_us/mapfiles/api-3/17/5/main.js"></script> -->
+
+<dom-module id="tripage-googleMap" assetPath"">
+	<template>
+		<style include="shared-locate-app-styles shared-graphic-styles">
+			#map {
+		        height: 300px;
+		    }
+		</style>
+	    <div>
+	    	<p>{{myTitle}}</p>
+	    </div> 
+	    <div id="map"></div>
+	</template>
+	<script>
+		Polymer({
+
+			is: "tripage-googleMap",
+
+			behaviors: [
+				TriBlockViewResponsiveBehavior,
+				Polymer.IronResizableBehavior
+			],
+
+			//this function fires when the polymer object is loaded
+			ready: function () {
+				console.log("Entering ready()...");
+				this.myTitle = "Hello World! --- This is Google.";
+				
+				var map = null;
+				var infoWindow = null;
+
+				map = new google.maps.Map(this.$.map, {
+					center: new google.maps.LatLng(41, -91),
+					disableDefaultUI: true,
+					zoom: 5
+				});
+				
+				infoWindow = new google.maps.InfoWindow;
+
+	    		// Try HTML5 geolocation.
+	    		if (navigator.geolocation) {
+	      			navigator.geolocation.getCurrentPosition(function(position) {
+	        			var pos = {
+	          			lat: position.coords.latitude,
+	          			lng: position.coords.longitude
+	        			};
+
+	        			infoWindow.setPosition(pos);
+	        			infoWindow.setContent('Location found.');
+	        			infoWindow.open(map);
+	        			map.setCenter(pos);
+	      				}, function() {
+	        				//handleLocationError(true, infoWindow, this.map.getCenter());
+	      			});
+	    		} 
+	    		else {
+	      			// Browser doesn't support Geolocation
+	      			//handleLocationError(false, infoWindow, this.map.getCenter());
+	    		}
+
+				function handleLocationError (browserHasGeolocation, infoWindow, pos) {
+					infoWindow.setPosition(pos);
+					infoWindow.setContent(browserHasGeolocation ?
+	            	        'Error: The Geolocation service failed.' :
+	                      	'Error: Your browser doesn\'t support geolocation.');
+					infoWindow.open(map);
+				}//end of handleLocationError
+
+				console.log("Exiting ready()...");
+			} //end of ready()
+
+		});
+	</script>
+</dom-module>
