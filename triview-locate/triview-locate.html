@@ -65028,7 +65028,7 @@ value. `setMax` should move the slider to the maximum value.
             	console.log ("Entering... _onAppleMapRouteActive()");
                 this.loadResource(this.$.appleMapPage, "tripage-appleMap.html");
                 console.log ("Exiting... _onAppleMapRouteActive()");
-            }
+            } 
         },
 
         //<!-- map-demo -->
@@ -78081,6 +78081,12 @@ TriPlatGraphicUtilitiesBehavior = {
 
 		_getKey : function()
 		{
+			//../components/r/en-US/l/triview-locate
+
+			// context root = /tririga
+			console.log(this.contextroot);
+			console.log("root");
+
 			fetch( this.contextroot + "/api/p/v1/forge/auth/token",
 		    { 
 				headers: {

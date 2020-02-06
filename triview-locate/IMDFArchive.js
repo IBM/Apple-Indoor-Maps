@@ -8,6 +8,7 @@ The IMDF archive class contains the indoor mapping data organized by feature typ
     and occupants. The methods are filters that find the features by floor.
 */
 "use strict";
+console.log("IMDF");
 
 function ImdfArchive(features) {
     this.features = features;
@@ -26,7 +27,7 @@ ImdfArchive.load = function(callback) {
 
     files.forEach(function(name) {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "venue/" + name + ".geojson");
+        xhr.open("GET", "../components/r/en-US/l/triview-locate/venue/" + name + ".geojson");
         xhr.addEventListener("load", function() {
             completed += 1;
             features = features.concat(JSON.parse(xhr.responseText).features);
