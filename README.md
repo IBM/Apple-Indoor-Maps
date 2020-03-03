@@ -26,7 +26,7 @@ When the user has completed this Code Pattern, they will understand how they can
 
   * [Polymer 1.0](https://polymer-library.polymer-project.org/1.0/docs/devguide/feature-overview) library.  The Polymer library provides a set of features for creating custom elements.
 
-  * [Python 3]()<font color="red"> (github link to main.py for generating jwt)</font>
+  * [Python 3](https://github.com/addisonwebb/Apple-JWT-Generator)<font color="red"> (github link to main.py for generating jwt)</font>
 
   * [Apple Maps](https://developer.apple.com/maps/web/).  Apple Maps brings interactive maps to your website — complete with annotations, overlays, and interfaces to Apple Maps services.
 
@@ -54,9 +54,9 @@ Steps for dinosaur map, step for custom maps
 1. Push new code using webview to tririga server
 1. Convert autocad floor plans to IMDF geojson with Safe FME workbench (not needed for dino demo, floor plans already there, needed for custom)
 1. Apple developer account created private key created for jwt token
-1. Load geojson floor plans to be validated and georeferenced
-1. Indoor survey tool and survey building for bluedot accuracy
-1. Put in new georeferenced geojson files in venue folder
+1. Enable Wi-Fi Fingerprinting
+1. Test final product
+
 
 If using custom maps, modify venue folder to hold your files
 
@@ -66,8 +66,8 @@ If using custom maps, modify venue folder to hold your files
 ## 4. Download code from github and put into TRIRGA folder
 ## 5. Push new code using webview to tririga server
 ## 6. Convert autocad floor plans to IMDF geojson with Safe FME workbench (not needed for dino demo, floor plans already there, needed for custom) (Jay)
-## 7. Apple developer account created private key created for jwt token (Jay)
-This code will generate a jwt token that will last for a year
+## 7. Create an Apple Developer account and obtain private key to generate a jwt token (Jay)
+Enter your account information where applicable. 
 ```python
 import jwt
 import time
@@ -87,7 +87,7 @@ private_key = b'-----BEGIN PRIVATE KEY-----\n \n-----END PRIVATE KEY-----'
 issued_timestamp = time.time()
 encoded = jwt.encode({'iss': team_id,'iat': issued_timestamp}, private_key, algorithm='ES256', headers={'kid': key_id})
 ```
-## 8. Load geojson floor plans to be validated and georeferenced (Jay)
+## 8. Enable Wi-Fi Fingerprinting
 
 Go to [Apple Business Register Account](https://register.apple.com/business/ui/services)
 
