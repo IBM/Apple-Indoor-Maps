@@ -108,6 +108,6 @@ Once all steps are complete download "geo-referenced IMDF" and put those files i
 ![Indoor Maps](images/download_IMDF.png)
 
 ## 9. Test final product
-<video width="600" height="400" controls>
+<video width="600" height="400" controls> 
   <source src="images/bluedot_tririga.mov">
 </video>
