@@ -90,24 +90,38 @@ encoded = jwt.encode({'iss': team_id,'iat': issued_timestamp}, private_key, algo
 ## 8. Load geojson floor plans to be validated and georeferenced (Jay)
 
 Go to [Apple Business Register Account](https://register.apple.com/business/ui/services)
+
 ![Indoor Maps](images/Apple_bus.png)
 
+
 Click "Add File" to upload your geojson files.
+
 ![Indoor Maps](images/upload_file.png)
 
+
 Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.apple.com/us/app/indoor-survey/id994269367). This may take a couple tries. If you get errors you can go into the IMDF sandbox to fix the errors and reupload the files.
+
 ![Indoor Maps](images/indoor_survey_app.png)
 
+
 Open the app and survey the building. For help with surveying a building check out [Apple's help page](https://help.apple.com/indoorsurvey/).
+
 ![Indoor Maps](images/iphone_survey.png)
 
+
 It will take up to 24 hours for the survey to be registered in the system. You will receive and email upon completion. Go into your app and test the indoor positioning.
+
 ![Indoor Maps](images/indoor_test.png)
 
+
 Once all steps are complete download "geo-referenced IMDF" and put those files in your venue folder withing your code.
+
 ![Indoor Maps](images/download_IMDF.png)
 
+
 ## 9. Test final product
+[Box link to final product video](https://ibm.box.com/s/ymfx7a21chywvhz4t8i8krlvox7bjee0)
+
 <video width="600" height="400" controls> 
   <source src="images/bluedot_tririga.mov">
 </video>
