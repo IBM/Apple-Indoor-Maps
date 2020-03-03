@@ -89,7 +89,7 @@ encoded = jwt.encode({'iss': team_id,'iat': issued_timestamp}, private_key, algo
 ```
 ## 8. Enable Wi-Fi Fingerprinting
 
-Go to [Apple Business Register Account](https://register.apple.com/business/ui/services)
+Go to [Apple Business Register Indoor Maps Account](https://register.apple.com/indoor)
 
 ![Indoor Maps](images/Apple_bus.png)
 
@@ -99,7 +99,7 @@ Click "Add File" to upload your geojson files.
 ![Indoor Maps](images/upload_file.png)
 
 
-Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.apple.com/us/app/indoor-survey/id994269367). This may take a couple tries. If you get errors you can go into the IMDF sandbox to fix the errors and reupload the files.
+Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.apple.com/us/app/indoor-survey/). This may take a couple tries. If you get errors you can go into the IMDF sandbox to fix the errors and reupload the files.
 
 ![Indoor Maps](images/indoor_survey_app.png)
 
