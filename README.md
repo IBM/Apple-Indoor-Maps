@@ -26,7 +26,7 @@ When the user has completed this Code Pattern, they will understand how they can
 
   * [Polymer 1.0](https://polymer-library.polymer-project.org/1.0/docs/devguide/feature-overview) library.  The Polymer library provides a set of features for creating custom elements.
 
-  * [Python 3](https://github.com/addisonwebb/Apple-JWT-Generator)<font color="red"> (github link to main.py for generating jwt)</font>
+  * [Apple JWT Generator](https://github.com/addisonwebb/Apple-JWT-Generator)<font color="red"> This Pyhton 3 script generates a Java Web Token (JWT) for map authorization from Apple.</font>
 
   * [Apple Maps](https://developer.apple.com/maps/web/).  Apple Maps brings interactive maps to your website — complete with annotations, overlays, and interfaces to Apple Maps services.
 
