@@ -25,8 +25,8 @@ insert image of apple maps in tririga
   * [IBM TRIRIGA UX framework](https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/IBM%20TRIRIGA1/page/UX%20Framework).   The IBM TRIRIGA Application Platform introduces an MVC-based UX framework for Polymer-based applications.  
 
   * [Polymer 1.0](https://polymer-library.polymer-project.org/1.0/docs/devguide/feature-overview) library.  The Polymer library provides a set of features for creating custom elements.
-* 
-<font color="red">python 3 (github link to main.py for generating jwt)</font>
+
+  * [Python 3]()<font color="red"> (github link to main.py for generating jwt)</font>
 
   * [Apple Maps](https://developer.apple.com/maps/web/).  Apple Maps brings interactive maps to your website — complete with annotations, overlays, and interfaces to Apple Maps services.
 
@@ -39,6 +39,7 @@ insert image of apple maps in tririga
   * [WebViewSync](https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=9e3a5b9d-6a06-4796-a6c1-5137b626e39c#fullpageWidgetId=W89a8af160e64_4167_a047_b5bc553dcaf4&folder=705ed044-fa9c-4d87-8353-3017fcd6f863).  Populate the HTML files and automatically sync your HTML changes in your TRIRIGA environment. 
 
 # Flow (Josh)
+
 # Steps (Jay and Josh)
 
 Follow these steps to setup and run this Code Pattern
