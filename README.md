@@ -64,8 +64,8 @@ Steps for dinosaur map, step for custom maps
 If using custom maps, modify venue folder to hold your files
 
 ## 1. Download Tririga vm that uses Polymer 1.0 components
-## 2. Download Polymer 1.0 library (Josh)
-## 3. Webview to sync TRIRIGA code(put in all the commands.. init, sync)
+## 2. Download Polymer 1.0 library
+## 3. Webview to sync TRIRIGA code
 ## 4. Download code from github and put into TRIRGA folder
 ## 5. Push new code using webview to TRIRIGA server
 ## 6. Convert AutoCAD floor plans to IMDF geojson with Safe FME workbench 
@@ -75,7 +75,7 @@ This step is not needed if you are using the Dino Demo floor plans.
 If you have your own floor plans reach out to Safe FME to construct a workbench that will convert your AutoCAD files to IMDF.
 
 ![Indoor Maps](images/fme_workbench_flow.png)
-## 7. Create an Apple Developer account and obtain private key to generate a jwt token (Jay)
+## 7. Apple developer account created private key created for jwt token
 Enter your account information where applicable. 
 ```python
 import jwt
