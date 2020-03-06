@@ -50,8 +50,8 @@ Follow these steps to setup and run this Code Pattern
 Steps for dinosaur map, step for custom maps
 (can have 1.1 and 1.2 to differentiate)
 
-1. [Download Tririga vm that uses Polymer 1.0 components](#1-Download-Tririga-vm-that-uses-Polymer-1.0-components)
-2. [Download Polymer 1.0 library](#2-Download-Polymer-1.0-library)
+1. [Download Tririga vm that uses Polymer 1 components](#1-Download-Tririga-vm-that-uses-Polymer-1-components)
+2. [Download Polymer 1 library](#2-Download-Polymer-1-library)
 3. [Webview to sync TRIRIGA code](#3-Webview-to-sync-TRIRIGA-code)
 4. [Download code from github and put into TRIRGA folder](#4-Download-code-from-github-and-put-into-TRIRGA-folder)
 5. [Push new code using webview to TRIRIGA server](#5-Push-new-code-using-webview-to-TRIRIGA-server)
@@ -63,8 +63,8 @@ Steps for dinosaur map, step for custom maps
 
 If using custom maps, modify venue folder to hold your files
 
-## 1. Download Tririga vm that uses Polymer 1.0 components
-## 2. Download Polymer 1.0 library
+## 1. Download Tririga vm that uses Polymer 1 components
+## 2. Download Polymer 1 library
 ## 3. Webview to sync TRIRIGA code
 ## 4. Download code from github and put into TRIRGA folder
 ## 5. Push new code using webview to TRIRIGA server
