@@ -1,6 +1,9 @@
 # Integration of Apple Maps within TRIRIGA (Jay)
 
-<!--- https://guides.github.com/features/mastering-markdown/ -->
+<!--- https://guides.github.com/features/mastering-markdown/ 
+
+
+add contact for indoor email-->
 
 In this code pattern, we show how to integrate Apple Indoor Maps within TRIRIGA.
 
@@ -120,7 +123,7 @@ Once all steps are complete download "geo-referenced IMDF" and put those files i
 
 
 ## 9. Test final product
-[Box link to final product video](https://ibm.box.com/s/ymfx7a21chywvhz4t8i8krlvox7bjee0)
+[Box link to final product video](https://ibm.box.com/s/eyijmm9xkli2z67p9g4modyc39cuxcjl)
 
 <video width="600" height="400" controls> 
   <source src="images/bluedot_tririga.mov">
