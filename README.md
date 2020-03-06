@@ -50,7 +50,7 @@ Follow these steps to setup and run this Code Pattern
 Steps for dinosaur map, step for custom maps
 (can have 1.1 and 1.2 to differentiate)
 
-1. [Download Tririga vm that uses Polymer 1.0 components (Josh)](#1.-Download-Tririga-vm-that-uses-Polymer-1.0-components-(Josh))
+1. [Download Tririga vm that uses Polymer 1.0 components](#1.-Download-Tririga-vm-that-uses-Polymer-1.0-components)
 1. Download Polymer 1.0 library
 1. Webview to sync tririga code(put in all the commands.. init, sync)
 1. Download code from github and put into TRIRGA folder
@@ -63,12 +63,15 @@ Steps for dinosaur map, step for custom maps
 
 If using custom maps, modify venue folder to hold your files
 
-## 1. Download Tririga vm that uses Polymer 1.0 components (Josh)
+## 1. Download Tririga vm that uses Polymer 1.0 components
 ## 2. Download Polymer 1.0 library (Josh)
 ## 3. Webview to sync tririga code(put in all the commands.. init, sync) (Josh)
 ## 4. Download code from github and put into TRIRGA folder
 ## 5. Push new code using webview to tririga server
 ## 6. Convert autocad floor plans to IMDF geojson with Safe FME workbench (not needed for dino demo, floor plans already there, needed for custom) (Jay)
+Reach out to Safe FME to construct a workbench that will convert your AutoCAD files to IMDF.
+
+![Indoor Maps](images/fme_workbench_flow.png)
 ## 7. Create an Apple Developer account and obtain private key to generate a jwt token (Jay)
 Enter your account information where applicable. 
 ```python
@@ -99,7 +102,7 @@ Go to [Apple Business Register Indoor Maps Account](https://register.apple.com/i
 
 Click "Add File" to upload your geojson files.
 
-![Indoor Maps](images/upload_file.png)
+![Indoor Maps](images/upload_file.png) 
 
 
 Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.apple.com/us/app/indoor-survey/). This may take a couple tries. If you get errors you can go into the IMDF sandbox to fix the errors and reupload the files.
