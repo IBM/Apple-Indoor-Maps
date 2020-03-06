@@ -51,21 +51,21 @@ Steps for dinosaur map, step for custom maps
 (can have 1.1 and 1.2 to differentiate)
 
 1. [Download Tririga vm that uses Polymer 1.0 components](#1.-Download-Tririga-vm-that-uses-Polymer-1.0-components)
-1. Download Polymer 1.0 library
-1. Webview to sync tririga code(put in all the commands.. init, sync)
-1. Download code from github and put into TRIRGA folder
-1. Push new code using webview to tririga server
-1. Convert autocad floor plans to IMDF geojson with Safe FME workbench (not needed for dino demo, floor plans already there, needed for custom)
-1. Apple developer account created private key created for jwt token
-1. Enable Wi-Fi Fingerprinting
-1. Test final product
+2. Download Polymer 1.0 library
+3. Webview to sync tririga code(put in all the commands.. init, sync)
+4. Download code from github and put into TRIRGA folder
+5. Push new code using webview to tririga server
+6. Convert autocad floor plans to IMDF geojson with Safe FME workbench 
+7. Apple developer account created private key created for jwt token
+8. [Enable Wi-Fi Fingerprinting](#8.-Enable-Wi-Fi-Fingerprinting)
+9. Test final product
 
 
 If using custom maps, modify venue folder to hold your files
 
 ## 1. Download Tririga vm that uses Polymer 1.0 components
 ## 2. Download Polymer 1.0 library (Josh)
-## 3. Webview to sync tririga code(put in all the commands.. init, sync) (Josh)
+## 3. Webview to sync tririga code(put in all the commands.. init, sync)
 ## 4. Download code from github and put into TRIRGA folder
 ## 5. Push new code using webview to tririga server
 ## 6. Convert AutoCAD floor plans to IMDF geojson with Safe FME workbench 
