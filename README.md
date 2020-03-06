@@ -56,7 +56,7 @@ Steps for dinosaur map, step for custom maps
 4. [Download code from github and put into TRIRGA folder](#4-Download-code-from-github-and-put-into-TRIRGA-folder)
 5. [Push new code using webview to TRIRIGA server](#5-Push-new-code-using-webview-to-TRIRIGA-server)
 6. [Convert autocad floor plans to IMDF geojson with Safe FME workbench](#6-Convert-autocad-floor-plans-to-IMDF-geojson-with-Safe-FME-workbench)
-7. [Apple developer account created private key created for jwt token](#7.Apple -developer-account-created-private-key-created-for-jwt-token)
+7. [Apple developer account created private key created for jwt token](#7-Apple-developer-account-created-private-key-created-for-jwt-token)
 8. [Enable Wi-Fi Fingerprinting](#8-Enable-Wi-Fi-Fingerprinting)
 9. [Test final product](#9-Test-final-product)
 
