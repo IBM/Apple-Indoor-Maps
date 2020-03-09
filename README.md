@@ -42,7 +42,6 @@ When the user has completed this Code Pattern, they will understand how they can
   * [WebViewSync](https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=9e3a5b9d-6a06-4796-a6c1-5137b626e39c#fullpageWidgetId=W89a8af160e64_4167_a047_b5bc553dcaf4&folder=705ed044-fa9c-4d87-8353-3017fcd6f863).  Populate the HTML files and automatically sync your HTML changes in your TRIRIGA environment.
 
 # Flow
-![Indoor Maps](images/Flow_Diag.png) 
 
 # Steps (Jay and Josh)
 
@@ -127,6 +126,9 @@ It will take up to 24 hours for the survey to be registered in the system. You w
 Once all steps are complete download "geo-referenced IMDF" and put those files in your venue folder withing your code.
 
 ![Indoor Maps](images/download_IMDF2.png)
+
+
+For IMDF and IPS questions reach out to [indoor@apple.com](mailto:indoor@apple.com). 
 
 
 ## 9. Test final product
