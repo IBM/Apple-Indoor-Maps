@@ -55,7 +55,7 @@ Follow these steps to setup and run this Code Pattern.
 1. [Install or use a Polymer 1.0 compatible TRIRIGA version](#1-Launch-TRIRIGA)
 2. [Install the Polymer 1.0 library](#2-Install-Polymer-library)
 3. [Run WebViewSync to initialize TRIRIGA server connection](#3-Run-WebViewSync-to-initialize-TRIRIGA-connection)
-4. [Download code from github and put into TRIRGA folder](#4-Download-code-from-github-and-put-into-TRIRGA-folder)
+4. [Clone Apple-Indoor-Maps repository from github](#4-Clone-Apple-Indoor-Maps-repository-from-Github)
 5. [Push Apple Map element to the TRIRIGA server](#5-Push-Apple-Map-element-to-the-TRIRIGA-server)
 6. [Convert autocad floor plans to IMDF geojson with Safe FME workbench](#6-Convert-autocad-floor-plans-to-IMDF-geojson-with-Safe-FME-workbench)
 7. [Apple developer account created private key created for jwt token](#7-Apple-developer-account-created-private-key-created-for-jwt-token)
@@ -117,7 +117,15 @@ Writing init file [ok]
 Signing Out Of TRIRIGA [success]
 ````
 
-## 4. Pull Apple Map element from Github and copy into a working TRIRGA folder
+## 4. Clone Apple Indoor Maps repository from Github
+Clone with HTTPS
+````
+git clone https://github.ibm.com/DRT/Apple-Indoor-Maps.git
+````
+Clone with SSH
+````
+git clone git@github.ibm.com:DRT/Apple-Indoor-Maps.git
+````
 ## 5. Push Apple Map element to the TRIRIGA server
 If needed pull the latest view/perceptive application from the TRIRIGA server
 ````
@@ -129,11 +137,11 @@ java -jar WebViewSync_3.x.x.jar
 Pulling files for view [name of working perceptive application] [ok]
 Signing Out Of TRIRIGA [success]
 ````
-Copy the Apple Map element **triage-appleMap.html** to your working directory/perceptive application folder
+Copy the Apple Map element **tripage-appleMap.html** to your working directory/perceptive application folder
 
 Push the element **tripage-appleMap.html** to the TRIRIGA server
 ````
-java -jar WebViewSync_3.6.0.jar push -v [name of working perceptive application]
+java -jar WebViewSync_3.x.x.jar push -v [name of working perceptive application]
 ````
 **You should see the following prompt information below...**
 ````
