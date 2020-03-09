@@ -52,7 +52,7 @@ When the user has completed this Code Pattern, they will understand how they can
 
 Follow these steps to setup and run this Code Pattern.
 
-1. [Install or use a Polymer 1.0 compatible TRIRIGA version](#1-Install-TRIRIGA)
+1. [Install or use a Polymer 1.0 compatible TRIRIGA version](#1-Install-IBM-TRIRIGA)
 2. [Install the Polymer 1.0 library](#2-Install-Polymer-library)
 3. [Run WebViewSync to initialize TRIRIGA server connection](#3-Run-WebViewSync-to-initialize-TRIRIGA-connection)
 4. [Clone Apple-Indoor-Maps repository from github](#4-Clone-Apple-Indoor-Maps-repository-from-Github)
@@ -65,7 +65,7 @@ Follow these steps to setup and run this Code Pattern.
 
 If you are using custom maps, modify the venue folder to hold your custom venue files.
 
-## 1. Install TRIRIGA
+## 1. Install IBM TRIRIGA
 For guidance on installing IBM TRIRIGA please click [here](https://www.ibm.com/support/knowledgecenter/SSHEB3_3.6.1/com.ibm.tap.doc/product_landing.html).
 
 ## 2. Install Polymer library
