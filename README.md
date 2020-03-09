@@ -54,9 +54,9 @@ Follow these steps to setup and run this Code Pattern.
 
 1. [Install or use a Polymer 1.0 compatible TRIRIGA version](#1-Launch-TRIRIGA)
 2. [Install the Polymer 1.0 library](#2-Install-Polymer-library)
-3. [Run WebViewSync to initialize TRIRIGA code](#3-Run-WebViewSync-to-initialize-TRIRIGA-code)
+3. [Run WebViewSync to initialize TRIRIGA server connection](#3-Run-WebViewSync-to-initialize-TRIRIGA-connection)
 4. [Download code from github and put into TRIRGA folder](#4-Download-code-from-github-and-put-into-TRIRGA-folder)
-5. [Push new code using webview to TRIRIGA server](#5-Push-new-code-using-webview-to-TRIRIGA-server)
+5. [Push Apple Map element to the TRIRIGA server](#5-Push-Apple-Map-element-to-the-TRIRIGA-server)
 6. [Convert autocad floor plans to IMDF geojson with Safe FME workbench](#6-Convert-autocad-floor-plans-to-IMDF-geojson-with-Safe-FME-workbench)
 7. [Apple developer account created private key created for jwt token](#7-Apple-developer-account-created-private-key-created-for-jwt-token)
 8. [Enable Wi-Fi Fingerprinting](#8-Enable-Wi-Fi-Fingerprinting)
@@ -67,45 +67,45 @@ If you are using custom maps, modify the venue folder to hold your custom venue 
 
 ## 1. Launch TRIRIGA
 ## 2. Install Polymer library
-Install Git if needed
+**Install Git if needed**
 ````
 sudo yum install git
 `````
-Install NodeJs if needed
+**Install NodeJs if needed**
 ````
 sudo yum install nodes npm
 ````
-Install Bower if needed
+**Install Bower if needed**
 ````
 npm install -g bower
 ````
-Run Bower Initialization
+**Run Bower Initialization**
 ````
 bower init
 ````
-Install Polymer Core
+**Install Polymer Core**
 ````
 bower install --save Polymer/polymer#^1.2.0
 ````
-Install Polymer CLI
+**Install Polymer CLI**
 ````
 npm install -g polymer-cli
 ````
 
 For further guidance installing the Polymer library click [here](https://medium.com/code-kings/polymer-1-how-to-install-using-bower-how-to-download-the-polymer-elements-in-one-shot-473427ca9225).
 
-## 3. Run WebViewSync to initialize TRIRIGA code
+## 3. Run WebViewSync to initialize TRIRIGA connection
 Open a terminal window and navigate to where the WebViewSync_3.x.x.jar is located
 
-Run the following command to see the list of available  commands for WebViewSync
+**Run the following command to see the list of available  commands for WebViewSync**
 ```
 java -jar WebViewSync_3.x.x.jar
 ````
-Initialize a connection to the TRIRIGA server
+**Initialize a connection to the TRIRIGA server**
 ````
 java -jar WebviewSync_3.x.x.jar init
 ````
-You should see the following prompt information below...
+**You should see the following prompt information below...**
 ````
 TRIRIGA URL (including context path): http://<ip address of the TRIRIGA server>:<port>/<context path>
 TRIRIGA User Name: <Enter a user name>
@@ -117,8 +117,32 @@ Writing init file [ok]
 Signing Out Of TRIRIGA [success]
 ````
 
-## 4. Pull code from Github and put into a working TRIRGA folder
-## 5. Push new code using webview to TRIRIGA server
+## 4. Pull Apple Map element from Github and copy into a working TRIRGA folder
+## 5. Push Apple Map element to the TRIRIGA server
+If needed pull the latest view/perceptive application from the TRIRIGA server
+````
+java -jar WebViewSync_3.x.x.jar
+'
+'
+'
+'
+Pulling files for view [name of working perceptive application] [ok]
+Signing Out Of TRIRIGA [success]
+````
+Copy the Apple Map element **triage-appleMap.html** to your working directory/perceptive application folder
+
+**Push the element **tripage-appleMap.html** to the TRIRIGA server
+````
+java -jar WebViewSync_3.6.0.jar push -v [name of working perceptive application]
+````
+**You should see the following prompt information below...**
+````
+Pushing files for view [name of working perceptive application]...
+Signing On To TRIRIGA [success]
+  [2020-03-09 10:58:56] [push]     /tripage-appleMap.html                             [ok]
+Pushing files for view [name of working perceptive application] [ok]
+Signing Out Of TRIRIGA [success]
+````
 ## 6. Convert AutoCAD floor plans to IMDF geojson with Safe FME workbench 
 
 This step is not needed if you are using the Dino Demo floor plans. 
