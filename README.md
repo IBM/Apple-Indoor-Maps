@@ -29,6 +29,8 @@ When the user has completed this Code Pattern, they will understand how they can
 
   * [Polymer 1.0](https://polymer-library.polymer-project.org/1.0/docs/devguide/feature-overview) library.  The Polymer library provides a set of features for creating custom elements.
 
+  * [Polymer CLI](https://polymer-library.polymer-project.org/1.0/docs/tools/polymer-cli).  The Polymer command line interface.
+
   * [Apple JWT Generator](https://github.com/addisonwebb/Apple-JWT-Generator).<font color="red"> This Python 3 script generates a Java Web Token (JWT) for map authorization from Apple.</font>
 
   * [Apple Maps](https://developer.apple.com/maps/web/).  Apple Maps brings interactive maps to your website — complete with annotations, overlays, and interfaces to Apple Maps services.
@@ -37,22 +39,22 @@ When the user has completed this Code Pattern, they will understand how they can
 
   * [Apple Indoor Survey Tool](https://apps.apple.com/us/app/indoor-survey/id994269367).  Apple tool used to enable Apple Indoor Positioning in your venue.
 
-  * [Safe FME Workbench](https://www.safe.com/)  <font color="red">contact dave</font>
+  * [Safe FME Workbench](https://www.safe.com/)
 
   * [WebViewSync](https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=9e3a5b9d-6a06-4796-a6c1-5137b626e39c#fullpageWidgetId=W89a8af160e64_4167_a047_b5bc553dcaf4&folder=705ed044-fa9c-4d87-8353-3017fcd6f863).  Populate the HTML files and automatically sync your HTML changes in your TRIRIGA environment.
 
+  * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).  Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
+
 # Flow
+![Indoor Maps](images/Flow_Diag.png) 
 
-# Steps (Jay and Josh)
+# Steps
 
-Follow these steps to setup and run this Code Pattern
+Follow these steps to setup and run this Code Pattern.
 
-Steps for dinosaur map, step for custom maps
-(can have 1.1 and 1.2 to differentiate)
-
-1. [Download Tririga vm that uses Polymer 1 components](#1-Download-Tririga-vm-that-uses-Polymer-1-components)
-2. [Download Polymer 1 library](#2-Download-Polymer-1-library)
-3. [Webview to sync TRIRIGA code](#3-Webview-to-sync-TRIRIGA-code)
+1. [Install or use a Polymer 1.0 compatible TRIRIGA version](#1-Launch TRIRIGA)
+2. [Install the Polymer 1.0 library](#2-Install Polymer 1.0 library)
+3. [Run WebViewSync to initialize TRIRIGA code](#3-Run WebViewSync to initialize TRIRIGA code)
 4. [Download code from github and put into TRIRGA folder](#4-Download-code-from-github-and-put-into-TRIRGA-folder)
 5. [Push new code using webview to TRIRIGA server](#5-Push-new-code-using-webview-to-TRIRIGA-server)
 6. [Convert autocad floor plans to IMDF geojson with Safe FME workbench](#6-Convert-autocad-floor-plans-to-IMDF-geojson-with-Safe-FME-workbench)
@@ -61,12 +63,61 @@ Steps for dinosaur map, step for custom maps
 9. [Test final product](#9-Test-final-product)
 
 
-If using custom maps, modify venue folder to hold your files
+If you are using custom maps, modify the venue folder to hold your custom venue files.
 
-## 1. Download Tririga vm that uses Polymer 1 components
-## 2. Download Polymer 1 library
-## 3. Webview to sync TRIRIGA code
-## 4. Download code from github and put into TRIRGA folder
+## 1. Launch TRIRIGA
+## 2. Install Polymer 1.0 library
+Install Git if needed
+````
+sudo yum install git
+`````
+Install NodeJs if needed
+````
+sudo yum install nodes npm
+````
+Install Bower if needed
+````
+npm install -g bower
+````
+Run Bower Initialization
+````
+bower init
+````
+Install Polymer Core
+````
+bower install --save Polymer/polymer#^1.2.0
+````
+Install Polymer CLI
+````
+npm install -g polymer-cli
+````
+
+For further guidance installing the Polymer library click [here](https://medium.com/code-kings/polymer-1-how-to-install-using-bower-how-to-download-the-polymer-elements-in-one-shot-473427ca9225).
+
+## 3. Run WebViewSync to initialize TRIRIGA code
+Open a terminal window and navigate to where the WebViewSync_3.x.x.jar is located
+
+Run the following command to see the list of available  commands for WebViewSync
+```
+java -jar WebViewSync_3.x.x.jar
+````
+Initialize a connection to the TRIRIGA server
+````
+java -jar WebviewSync_3.x.x.jar init
+````
+You should see the following prompt information below...
+````
+TRIRIGA URL (including context path): http://<ip address of the TRIRIGA server>:<port>/<context path>
+TRIRIGA User Name: <Enter a user name>
+TRIRIGA Password: <Enter a password>
+Testing Connection...
+Signing On To TRIRIGA [success]
+Test Successful.
+Writing init file [ok]
+Signing Out Of TRIRIGA [success]
+````
+
+## 4. Pull code from Github and put into a working TRIRGA folder
 ## 5. Push new code using webview to TRIRIGA server
 ## 6. Convert AutoCAD floor plans to IMDF geojson with Safe FME workbench 
 
@@ -126,9 +177,6 @@ It will take up to 24 hours for the survey to be registered in the system. You w
 Once all steps are complete download "geo-referenced IMDF" and put those files in your venue folder withing your code.
 
 ![Indoor Maps](images/download_IMDF2.png)
-
-
-For IMDF and IPS questions reach out to [indoor@apple.com](mailto:indoor@apple.com). 
 
 
 ## 9. Test final product
