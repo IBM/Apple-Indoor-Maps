@@ -131,7 +131,7 @@ Signing Out Of TRIRIGA [success]
 ````
 Copy the Apple Map element **triage-appleMap.html** to your working directory/perceptive application folder
 
-**Push the element **tripage-appleMap.html** to the TRIRIGA server
+Push the element **tripage-appleMap.html** to the TRIRIGA server
 ````
 java -jar WebViewSync_3.6.0.jar push -v [name of working perceptive application]
 ````
