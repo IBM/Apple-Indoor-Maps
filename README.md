@@ -53,7 +53,7 @@ When the user has completed this Code Pattern, they will understand how they can
 Follow these steps to setup and run this Code Pattern.
 
 1. [Install or use a Polymer 1.0 compatible TRIRIGA version](#1-Launch-TRIRIGA)
-2. [Install the Polymer 1.0 library](#2-Install-Polymer-1.0-library)
+2. [Install the Polymer 1.0 library](#2-Install-Polymer-library)
 3. [Run WebViewSync to initialize TRIRIGA code](#3-Run-WebViewSync-to-initialize-TRIRIGA-code)
 4. [Download code from github and put into TRIRGA folder](#4-Download-code-from-github-and-put-into-TRIRGA-folder)
 5. [Push new code using webview to TRIRIGA server](#5-Push-new-code-using-webview-to-TRIRIGA-server)
@@ -66,7 +66,7 @@ Follow these steps to setup and run this Code Pattern.
 If you are using custom maps, modify the venue folder to hold your custom venue files.
 
 ## 1. Launch TRIRIGA
-## 2. Install Polymer 1.0 library
+## 2. Install Polymer library
 Install Git if needed
 ````
 sudo yum install git
