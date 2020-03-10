@@ -159,7 +159,7 @@ This step is not needed if you are using the Dino Demo floor plans.
 
 If you have your own floor plans reach out to Safe FME to construct a workbench that will convert your AutoCAD files to IMDF.
 
-![Indoor Maps](images/fme_workbench_flow.png)
+![Indoor Maps](images/fme_work.png)
 ## 7. Apple developer account created private key created for jwt token
 Enter your account information where applicable. 
 ```python
@@ -200,12 +200,12 @@ Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.
 
 Open the app and survey the building. For help with surveying a building check out [Apple's help page](https://help.apple.com/indoorsurvey/).
 
-![Indoor Maps](images/iphone_survey.png)
+![Indoor Maps](images/iPhone11_level1.png)
 
 
 It will take up to 24 hours for the survey to be registered in the system. You will receive and email upon completion. Go into your app and test the indoor positioning.
 
-![Indoor Maps](images/indoor_test2.png)
+![Indoor Maps](images/iPhone11_ips.png)
 
 
 Once all steps are complete download "geo-referenced IMDF" and put those files in your venue folder withing your code.
@@ -219,3 +219,4 @@ Once all steps are complete download "geo-referenced IMDF" and put those files i
 <video width="600" height="400" controls>  
   <source src="images/bluedot_tririga.mov">
 </video>
+  
