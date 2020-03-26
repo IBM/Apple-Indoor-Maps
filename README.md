@@ -1,6 +1,6 @@
 # Integration of Apple Maps within TRIRIGA
 
-<!--- https://guides.github.com/features/mastering-markdown/ 
+<!--- https://guides.github.com/features/mastering-markdown/
 
 
 add contact for indoor email-->
@@ -46,7 +46,7 @@ When the user has completed this Code Pattern, they will understand how they can
   * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).  Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
 
 # Flow
-![Indoor Maps](images/Flow_Diag.png) 
+![Indoor Maps](images/Flow_Diag.png)
 
 # Steps
 
@@ -153,15 +153,15 @@ Signing On To TRIRIGA [success]
 Pushing files for view [name of working perceptive application] [ok]
 Signing Out Of TRIRIGA [success]
 ````
-## 6. Convert AutoCAD floor plans to IMDF geojson with Safe FME workbench 
+## 6. Convert AutoCAD floor plans to IMDF geojson with Safe FME workbench
 
-This step is not needed if you are using the Dino Demo floor plans. 
+This step is not needed if you are using the Dino Demo floor plans.
 
 If you have your own floor plans reach out to Safe FME to construct a workbench that will convert your AutoCAD files to IMDF.
 
 ![Indoor Maps](images/fme_work.png)
 ## 7. Apple developer account created private key created for jwt token
-Enter your account information where applicable. 
+Enter your account information where applicable.
 ```python
 import jwt
 import time
@@ -190,7 +190,7 @@ Go to [Apple Business Register Indoor Maps Account](https://register.apple.com/i
 
 Click "Add File" to upload your geojson files.
 
-![Indoor Maps](images/upload_file2.png) 
+![Indoor Maps](images/upload_file2.png)
 
 
 Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.apple.com/us/app/indoor-survey/). This may take a couple tries. If you get errors you can go into the IMDF sandbox to fix the errors and reupload the files.
@@ -214,9 +214,8 @@ Once all steps are complete download "geo-referenced IMDF" and put those files i
 
 
 ## 9. Test final product
-[Box link to final product video](https://ibm.box.com/s/eyijmm9xkli2z67p9g4modyc39cuxcjl)
+[Box link to final product video](https://drive.google.com/file/d/1tFOryMMoJEWjdOXQaBFEm0XUj5F7Z0NL/view?usp=sharing)
 
 <video width="600" height="400" controls>  
   <source src="images/bluedot_tririga.mov">
 </video>
-  
