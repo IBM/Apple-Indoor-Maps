@@ -188,12 +188,12 @@ Go to [Apple Business Register Indoor Maps Account](https://register.apple.com/i
 ![Indoor Maps](images/Apple_bus.png)
 
 
-Click "Add File" to upload your geojson files.
+Click "Add File" to upload your geojson files. This may take a couple tries. If you get errors you can go into the IMDF sandbox to fix the errors and reupload the files.
 
 ![Indoor Maps](images/upload_file2.png)
 
 
-Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.apple.com/us/app/indoor-survey/). This may take a couple tries. If you get errors you can go into the IMDF sandbox to fix the errors and reupload the files.
+Once it is "Ready for Survey" download [Indoor Survey App for IOS](https://apps.apple.com/us/app/indoor-survey/).
 
 ![Indoor Maps](images/indoor_survey_app.png)
 
@@ -203,19 +203,15 @@ Open the app and survey the building. For help with surveying a building check o
 ![Indoor Maps](images/iPhone11_level1.png)
 
 
-It will take up to 24 hours for the survey to be registered in the system. You will receive and email upon completion. Go into your app and test the indoor positioning.
+It will take up to 24 hours for the survey to be registered in the system. Once completed you will receive an email and be able to go into the survey app to test the indoor positioning.
 
 ![Indoor Maps](images/iPhone11_ips.png)
 
 
-Once all steps are complete download "geo-referenced IMDF" and put those files in your venue folder withing your code.
+When all steps are complete download "geo-referenced IMDF" and put those files in your venue folder within your code.
 
 ![Indoor Maps](images/download_IMDF2.png)
 
 
 ## 9. Test final product
 [Box link to final product video](https://drive.google.com/file/d/1tFOryMMoJEWjdOXQaBFEm0XUj5F7Z0NL/view?usp=sharing)
-
-<video width="600" height="400" controls>  
-  <source src="images/bluedot_tririga.mov">
-</video>
