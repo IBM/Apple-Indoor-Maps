@@ -214,4 +214,10 @@ When all steps are complete download "geo-referenced IMDF" and put those files i
 
 
 ## 9. Test final product
-[Box link to final product video](https://drive.google.com/file/d/1tFOryMMoJEWjdOXQaBFEm0XUj5F7Z0NL/view?usp=sharing)
+[Link to demo video](https://drive.google.com/file/d/1tFOryMMoJEWjdOXQaBFEm0XUj5F7Z0NL/view?usp=sharing)
+
+Check out "tripage-appleMapWithZoom.html" for code snippets of annotations and additional zoom levels
+
+![Indoor Maps](images/zoom_close_cubes.png)
+
+![Indoor Maps](images/zoom_close.png)
