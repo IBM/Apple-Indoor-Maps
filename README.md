@@ -193,7 +193,7 @@ Click "Add File" to upload your geojson files. This may take a couple tries. If 
 ![Indoor Maps](images/upload_file2.png)
 
 
-Once it is "Ready for Survey" download the Indoor Survey App for IOS on the [Apple App Store](https://www.apple.com/ios/app-store/)
+Once it is "Ready for Survey" download the Indoor Survey App for IOS on the [Apple App Store](https://www.apple.com/ios/app-store/).
 
 ![Indoor Maps](images/indoor_survey_app.png)
 
