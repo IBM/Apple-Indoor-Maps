@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="./style.css">
 <link rel="stylesheet" type="text/css" href="../components/r/en-US/l/triview-locate/style.css">
 
+
+
 <dom-module id="tripage-appleMap" assetpath="">
     
 
@@ -29,7 +31,7 @@ body {
 
 #map {
     width: 100%;
-    height: 100%;
+    height: 99%;
 }
 
 /*
@@ -39,8 +41,8 @@ body {
 #levelpicker {
     position: absolute;
     background: white;
-    top: 200px;
-    right: 20px;
+    top: 260px;
+    right: 10px;
     border-radius: 7px;
     padding: 5px 0;
     border: 1px solid #D5D5D5;
@@ -79,7 +81,12 @@ body {
     color: #666;
     font-size: 14px;
 }
-.exhibit-annotation {
+
+/*
+These classes change the colors of the dots for a particular room type  
+*/
+
+.conferenceroom-annotation {
     background-color: rgb(205, 141, 200);
 }
 .restaurant-annotation {
@@ -90,23 +97,35 @@ body {
 }
             
         </style>
-        <!--<div>
-            <p>{{myTitle}}</p>
-            
-        </div>--> 
         
+        
+        <!--
+        Level picker had to be intialized within the polymer element. 
+        To adjust placement refer to #levelpicker.
+        -->
         <div id="map"></div>
         <ul id="levelpicker">
-            <li id = "C" class="level-1" title="Concourse">C</li>
-            <li id = "P" class="level-0 selected" title="Parkway">P</li>
-            <li id = "LL" class="level--1" title="Lower Level">LL</li>
+            <li id = "L3" class="level-2" title="Third Floor">L3</li>
+            <li id = "L2" class="level-1 selected" title="Second Floor">L2</li>
+            <li id = "L1" class="level-0" title="First Floor">L1</li>
         </ul>
+
+
+        
+
+        
+
+ 
+
         
     </template>
     
+
     <script type="text/javascript">
         "use strict";
-        var flag = 0;
+        /*
+            map needs to be a global variable to render indoor maps
+        */
         var map = null;
         Polymer({
 
@@ -118,12 +137,13 @@ body {
             ],
 
             //this function fires when the polymer object is loaded
-            //
             attached: function () {
                 mapkit.init({
         authorizationCallback: function(done) {
             
             var xhr = new XMLHttpRequest();
+            //path to jwtoken file in your directory. can also 
+
             xhr.open("GET", "../components/r/en-US/l/triview-locate/jwtoken");
             //xhr.open("GET", "/jwtoken");
             xhr.addEventListener("load", function() {
@@ -133,21 +153,378 @@ body {
 
         }
     });
-
-    map = new mapkit.Map("map", {
-        showsPointsOfInterest: false,
-        showsMapTypeControl: false
+                
+    mapkit.addEventListener("configuration-change", function(event) {
+        switch (event.status) {
+        case "Initialized":
+            createMap();
+            break;
+        case "Refreshed":
+            break;
+        }
     });
+    
+    function createMap() {
 
-    var Cupertino = new mapkit.CoordinateRegion(
-            //-71.47072500506123, 42.54970255834927
-            //new mapkit.Coordinate(42.54965133481393, -71.47128903037215),
-            //new mapkit.CoordinateSpan(0.000167647972, 0.0054985255)
-            new mapkit.Coordinate(37.32901686868525315, -121.88879221003019),
-            new mapkit.CoordinateSpan(0.0004, 0.0004)
+        var map = new mapkit.Map("map", {
+            showsUserLocation: true,
+            showsUserLocationControl: true,
+            showsPointsOfInterest: true,
+            showsMapTypeControl: false,
+            showTitle: true
+        });
+
+        //set where you want intial map to load (latitude/longitude)
+        map.region = new mapkit.CoordinateRegion(
+           //new mapkit.Coordinate(37.329016868525315, -121.88879221003019),
+           new mapkit.Coordinate(42.54965133481393, -71.47128903037215),
+           new mapkit.CoordinateSpan(0.004, 0.004)
         );
-    console.log("here");
-    map.region = Cupertino;       
+
+        //start of zoom code
+        let sandTile = (function() {
+          let sandColor = "#FAF2D9";
+          let canvas = document.createElement("canvas");
+          canvas.width = canvas.height = 1;
+          let context = canvas.getContext("2d");
+          context.fillStyle = sandColor;
+          context.fillRect(0, 0, 1, 1);
+
+          return canvas.toDataURL();
+      })();
+
+      let indoorOverlay = new mapkit.TileOverlay(function(x, y, z) {
+          return sandTile;
+      }, {
+          minimumZ: 20,
+          maximumZ: 24
+      });
+      map.addTileOverlay(indoorOverlay);
+      //end of zoom code
+
+        /*
+            We commented out oppenings, amenities, and occupantsWithAnchor because they did 
+            not exist in our venue. If they do in yours, uncomment.
+        */
+        ImdfArchive.load(function(archive) {
+
+              function createItemsForOrdinal(ordinal, callback) {
+                  var mapItems = [];
+
+                  // According to the IMDF specification, multiple levels may have the same ordinal.
+                  var levels = archive.levels(ordinal),
+                      units = [],
+                      //openings = [],
+                      //amenities = [],
+                      occupantsWithAnchor = [];
+
+                  levels.forEach(function(level) {
+                      units = units.concat(archive.unitsOnLevel(level.id));
+                      //openings = openings.concat(archive.openingsOnLevel(level.id));
+                      //amenities = amenities.concat(archive.amenitiesOnLevel(level.id));
+                      //occupantsWithAnchor = occupantsWithAnchor.concat(archive.occupantsWithAnchorsOnLevel(level.id));
+                  });
+
+                  var numberOfItemsToCreate =
+                      levels.length + units.length + occupantsWithAnchor.length;
+                  var completed = 0;
+
+                  function updateCountAndCheckCompleteness() {
+                      completed += 1;
+                      if (completed === numberOfItemsToCreate) {
+                          callback(mapItems);
+                      }
+                  };
+
+                  levels.concat(units).forEach(feature => {
+                      mapkit.importGeoJSON(feature, {
+                          /* The IMDF archive does not contain style information.
+                           * Provide the style characteristics for displaying the features, depending on their type
+                           * and properties.
+                           */
+                          styleForOverlay: function(overlay) {
+                              if (feature.feature_type === "opening") {
+                                  overlay.style.strokeColor = "rgb(255, 255, 255)";
+                              }
+                              if (feature.feature_type === "unit") {
+                                  overlay.style.fillOpacity = 1;
+                                  overlay.style.strokeColor = "rgb(190, 190, 190)";
+
+                                  if (feature.properties.category === "elevator")
+                                      overlay.style.fillColor = "rgb(255,255,153)";
+
+                                  else if (feature.properties.category === "stairs")
+                                      overlay.style.fillColor = "rgb(205, 220, 229)";
+
+                                  else if (feature.properties.category === "restroom.female")
+                                      overlay.style.fillColor = "rgb(231, 220, 237)";
+                                  else if (feature.properties.category === "restroom.male")
+                                      overlay.style.fillColor = "rgb(231, 220, 237)";
+
+                                  else if (feature.properties.category === "walkway")
+                                      overlay.style.fillColor = "rgb(255, 255, 255)";
+
+
+                                  else if (feature.properties.category === "conferenceroom")
+                                      overlay.style.fillColor = "rgb(144,238,144)";
+                                  else if (feature.properties.category === "huddleroom")
+                                      overlay.style.fillColor = "rgb(250,128,114)";
+                                  else if (feature.properties.category === "office")
+                                      overlay.style.fillColor = "rgb(238, 238, 238)";
+
+                                  else if (feature.properties.category === "kitchen")
+                                      overlay.style.fillColor = "rgb(238, 238, 238)";
+                                  else if (feature.properties.category === "mailroom")
+                                      overlay.style.fillColor = "rgb(238, 238, 238)";
+                                  else if (feature.properties.category === "library")
+                                      overlay.style.fillColor = "rgb(238, 238, 238)";
+
+                
+                              }
+                              return overlay.style;
+                          },
+
+
+                          itemForPoint: function(coordinate, geoJSON) {
+                              var name = (feature.properties.name || {}).en || feature.properties.category || feature.id;
+                              console.log(name);
+                              if(name==="A2519B" || feature.properties.category==="level" || feature.properties.category==="restroom" || feature.properties.category==="elevator" || feature.properties.category==="stairs"){
+                                var options = {
+                                    title: name,
+                                    clusteringIdentifier: feature.properties.category,
+                                    displayPriority: feature.properties.category === "office" ? 500 : 250,
+                                    anchorOffset: new DOMPoint(0, -6),
+                                    size: { width: 12, height: 12 },
+                                    // The `data` field allows custom data to be associated with the annotation.
+                                    data: { showTitle: true, category: feature.properties.category }
+                                };
+                              }
+                              /*
+                              else{
+                              var options = {
+                                  title: name,
+                                  clusteringIdentifier: feature.properties.category,
+                                  displayPriority: feature.properties.category === "huddleroom" ? 500 : 250,
+                                  anchorOffset: new DOMPoint(0, -6),
+                                  size: { width: 12, height: 12 },
+                                  // The `data` field allows custom data to be associated with the annotation.
+                                  data: { showTitle: true, category: feature.properties.category }
+                              };
+                            }
+                            */
+
+                              if (/male/i.test(name))
+                                  options.subtitle = "🚹";
+                              else if (/femaile/i.test(name))
+                                  options.subtitle = "🚺";
+                              else if (/sauropod/i.test(name))
+                                  options.subtitle = "🦕";
+
+                              //🚹 🚺
+
+                              //cordinate = new mapkit.Coordinate(feature.properties.display_point.coordinates[1], feature.properties.display_point.coordinates[0]);
+
+                              return new mapkit.Annotation(coordinate, createAnnotationElement, options);
+                          },
+                          itemForPolygon: function(overlay, geoJSON) {
+                                /*
+                                    this function adds the points on the map. If you leave the title as "", then the title won't show up for those rooms
+                                */
+                              var lat = feature.properties.display_point.coordinates[1];
+                              var lng = feature.properties.display_point.coordinates[0];
+                              var name = (feature.properties.name || {}).en || feature.properties.category || feature.id;
+                              var clusteringName = name.substring(0,2);
+                              if (name.match(/^AISLE/i)) {
+                                      clusteringName = name.substring(5,7);
+                              } else if (name.match(/^MISC/i)) {
+                                      clusteringName = name.substring(4,6);
+                                      console.log("here");
+                              }
+                              //|| name==="A2439O"
+                              if(name==="A2519B"  || feature.properties.category==="conferenceroom" || name.substring(0,5)==="Level" ||  feature.properties.category.substring(0,8)==="restroom" || feature.properties.category==="stairs"){
+                              var options = {
+                                  title: name,
+                                  clusteringIdentifier: clusteringName,
+                                  collisionMode: "circle",
+                                  subtitle: "🏢",
+                                  displayPriority: feature.properties.category === "office" ? 500 : 250,
+                                  anchorOffset: new DOMPoint(0, -6),
+                                  size: { width: 20, height: 20 },
+                                  // The `data` field allows custom data to be associated with the annotation.
+                                  data: { showTitle: true, category: feature.properties.category }
+                              };
+                            }
+                            /*
+                            else{
+                              var options = {
+                                  title: "",
+                                  clusteringIdentifier: "",
+                                  collisionMode: "circle",
+                                  subtitle: "🦖",
+                                  displayPriority: feature.properties.category === "office" ? 500 : 250,
+                                  anchorOffset: new DOMPoint(0, -6),
+                                  size: { width: 20, height: 20 },
+                                  // The `data` field allows custom data to be associated with the annotation.
+                                  data: { showTitle: true, category: feature.properties.category }
+                              };
+                            }
+                            */
+                            if (feature.properties.category==="restroom.male")
+                                options.subtitle = "🚹";
+                            else if (feature.properties.category==="restroom.female")
+                                options.subtitle = "🚺";
+                            else if (feature.properties.category==="stairs")
+                                options.subtitle = "📶";
+                            else if (feature.properties.category==="conferenceroom")
+                                options.subtitle = "💼";
+                            else if (feature.properties.category==="library")
+                                options.subtitle = "📚";
+                            else if (name==="A2519B"){
+                                options.subtitle = "👨‍💻";
+                                //options.title = "Jay Messina :\n A2519B";
+                              }
+                              else if (name==="A2439O"){
+                                  options.subtitle = "👨‍💻";
+                                  options.title = "Josh Brooks :\n A2439O";
+                                }
+
+
+
+                              var pin = new mapkit.Annotation(new mapkit.Coordinate(lat, lng), createAnnotationElement, options);
+                              return [overlay, pin ];
+                          },
+                          geoJSONDidComplete: function(itemCollection) {
+                              if (itemCollection) {
+                                  mapItems.push(itemCollection);
+                                  updateCountAndCheckCompleteness();
+                              }
+                          },
+                          geoJSONDidError: function(err) {
+                              console.error(err);
+                              updateCountAndCheckCompleteness();
+                          }
+                      });
+                  });
+
+                  /* An `Occupant` feature models a business in a building; it does not have a geometry and
+                   * therefore has no coordinates.
+                   * To locate an occupant on the indoor map, use the associated anchor to specify its location.
+                   */
+                  occupantsWithAnchor.forEach(function(occupantWithAnchor) {
+                      var anchor = occupantWithAnchor.anchor,
+                          occupant = occupantWithAnchor.occupant;
+
+                      mapkit.importGeoJSON(anchor, {
+                          itemForPoint: function(coordinate, geoJSON) {
+                              var name = (occupant.properties.name || {}).en || occupant.properties.category || occupant.id;
+                              var options = {
+                                  title: name,
+                                  clusteringIdentifier: occupant.properties.category,
+                                  anchorOffset: new DOMPoint(0, -6),
+                                  size: { width: 12, height: 12 },
+                                  displayPriority: 500,
+                                  data: { category: occupant.properties.category, showTitle: true }
+                              }
+                              if (occupant.properties.category === "restaurant")
+                                  options.subtitle = "🍲";
+                              return new mapkit.Annotation(coordinate, createAnnotationElement, options);
+                          },
+                          geoJSONDidComplete: function(itemCollection) {
+                              mapItems.push(itemCollection);
+                              updateCountAndCheckCompleteness();
+                          },
+                          geoJSONDidError: function(err) {
+                              console.error(err);
+                              updateCountAndCheckCompleteness();
+                          }
+                      });
+                  });
+              }
+
+              var automaticFloorSwitching = true;
+              var shownOrdinal = null;
+              var expectingOrdinal = null;
+              var itemsByOrdinal = {};
+
+              function showOrdinal(ordinal, userTriggered) {
+                  if (ordinal === shownOrdinal)
+                      return;
+                  automaticFloorSwitching = automaticFloorSwitching && !userTriggered;
+                  var cached = itemsByOrdinal[ordinal];
+                  if (!cached) {
+                      itemsByOrdinal[ordinal] = function(mapItems) {
+                          if (expectingOrdinal === ordinal) {
+                              if (shownOrdinal !== null) {
+                                  map.removeItems(itemsByOrdinal[shownOrdinal]);
+                                  map.addItems(mapItems);
+                              } else {
+                                  /* The `showItems` function adds the MapKit items to the map and adjusts the region,
+                                   * so the venue is at the center of the map view.
+                                   */
+                                  map.showItems(mapItems);
+                              }
+                              shownOrdinal = ordinal;
+                              expectingOrdinal = null;
+                          }
+                          itemsByOrdinal[ordinal] = mapItems;
+                      };
+                      expectingOrdinal = ordinal;
+                      createItemsForOrdinal(ordinal, itemsByOrdinal[ordinal]);
+                  } else if (typeof cached !== "function") {
+                      map.removeItems(itemsByOrdinal[shownOrdinal]);
+                      map.addItems(cached);
+                      shownOrdinal = ordinal;
+                  } else {
+                      expectingOrdinal = ordinal;
+                  }
+              };
+
+              var levelPicker = new LevelPicker(archive, showOrdinal);
+
+              levelPicker.selectOrdinal(0);
+
+              /* Subscribe to location updates and show the right floor accordingly, if needed.
+               * The floorLevel property may be undefined in browsers and OSes that do not support indoor positioning,
+               * or null if indoor positioning is not available for that location.
+               */
+              map.addEventListener('user-location-change', function(event) {
+                  /* In an actual application, switching between floors automatically based on user location should be
+                   * enabled only within the venue. This sample does not implement that feature.
+                   */
+                  if (automaticFloorSwitching && event.floorLevel !== undefined && event.floorLevel !== null) {
+                      levelPicker.selectOrdinal(event.floorLevel);
+                  }
+              });
+
+              // Workaround: set enableHighAccuracy to get floorLevel populated, if in an indoor-surveyed building.
+              var locationWatchId =
+                  navigator.geolocation.watchPosition(
+                      function(position) {},
+                      function(err) { console.error("could not acquire user location", err); },
+                      { enableHighAccuracy: true }
+                  );
+
+          });
+        
+        //this is where the dots are created in the map. adjust as needed for different colors with css from top
+        function createAnnotationElement(coordinate, options) {
+            var div = document.createElement("div");
+            //if else statements for different colors of dots
+            div.className = "circle-annotation " + options.data.category + "-annotation";
+            if (options.data.showTitle) {
+                var title = document.createElement("div")
+                title.className = "circle-annotation-title";
+                title.textContent = options.title;
+                div.appendChild(title);
+            }
+            return div;
+        };
+
+    };
+
+
+
+              
 
     //end of attach
             }
@@ -157,6 +534,9 @@ body {
     </script>
 
     <script>
+        /*
+            To get the level picker to display in polymer we had to reference an intialized id for the levels in the picker
+        */
         console.log("levelpicker");
         function LevelPicker(archive, onSelectedOrdinal) {
             var e = document.getElementById("levelpicker");
@@ -196,8 +576,10 @@ body {
         return 0;
     });
 
+
+
     levelNames.forEach(function(levelName) {
-        console.log(typeof(levelName.shortName), levelName.shortName);
+        console.log("here", typeof(levelName.shortName), levelName.shortName);
         var levelElement = document.getElementById(levelName.shortName);
         /*
         document.createElement("li");
@@ -221,11 +603,18 @@ LevelPicker.prototype.selectOrdinal = function(ordinal) {
         selected.classList.remove("selected");
     this.element.querySelector(".level-" + ordinal).classList.add("selected");
 };
+
 </script>
 
+
+
 <script>
-    console.log("IMDFArchive");
-    function ImdfArchive(features) {
+    "use strict";
+    /*
+        functions with files we don't have are commented out. comment back in if you have those files.
+    */
+
+function ImdfArchive(features) {
     this.features = features;
     this.featuresByType = {};
     features.forEach(function(feature) {
@@ -235,7 +624,9 @@ LevelPicker.prototype.selectOrdinal = function(ordinal) {
 }
 
 ImdfArchive.load = function(callback) {
-    var files = ["anchor", "amenity", "level", "unit", "footprint", "opening", "occupant", "venue"];
+    //we commented out the files we don't have in our venue
+    //"opening", "occupant", "amenity",
+    var files = ["anchor", "level", "unit", "footprint", "venue"];
 
     var completed = 0;
     var features = [];
@@ -279,17 +670,19 @@ ImdfArchive.prototype.unitsByIdOnLevel = function(levelId) {
     }
     return this._unitsByIdOnLevelCache[levelId];
 }
-
+/*
 ImdfArchive.prototype.openingsOnLevel = function(levelId) {
     return this.featuresByType["opening"].filter(function(feature) {
         return feature.properties.level_id === levelId;
     });
 }
-
+*/
+/*
 ImdfArchive.prototype.amenitiesOnLevel = function(levelId) {
     var amenities = {};
     var result = [];
     var unitsById = this.unitsByIdOnLevel(levelId);
+    //console.log("amenity", amenities);
     this.featuresByType["amenity"].forEach(function(amenity) {
         var unitIdsContainingAmenity = amenity.properties.unit_ids;
         for(var i in unitIdsContainingAmenity) {
@@ -302,7 +695,7 @@ ImdfArchive.prototype.amenitiesOnLevel = function(levelId) {
     });
     return result;
 }
-
+*/
 ImdfArchive.prototype.anchorByIdOnLevel = function(levelId) {
     var unitsById = this.unitsByIdOnLevel(levelId);
     var result = {};
@@ -312,7 +705,7 @@ ImdfArchive.prototype.anchorByIdOnLevel = function(levelId) {
     });
     return result;
 }
-
+/*
 ImdfArchive.prototype.occupantsWithAnchorsOnLevel = function(levelId) {
     var anchorById = this.anchorByIdOnLevel(levelId);
     var result = [];
@@ -322,198 +715,11 @@ ImdfArchive.prototype.occupantsWithAnchorsOnLevel = function(levelId) {
     });
     return result;
 }
+*/
 </script>
 
-<script>
-    console.log("IndoorMap");
-    ImdfArchive.load(function(archive) {
 
-        function createItemsForOrdinal(ordinal) {
-            var mapItems = [];
 
-            // According to the IMDF specification, multiple levels may have the same ordinal.
-            var levels = archive.levels(ordinal),
-                units = [],
-                openings = [],
-                amenities = [],
-                occupantsWithAnchor = [];
 
-            levels.forEach(function(level) {
-                units = units.concat(archive.unitsOnLevel(level.id));
-                openings = openings.concat(archive.openingsOnLevel(level.id));
-                amenities = amenities.concat(archive.amenitiesOnLevel(level.id));
-                occupantsWithAnchor = occupantsWithAnchor.concat(archive.occupantsWithAnchorsOnLevel(level.id));
-            });
-
-            levels.concat(units, openings, amenities).forEach(feature => {
-                mapkit.importGeoJSON(feature, {
-                    /* The IMDF archive does not contain style information.
-                     * Provide the style characteristics for displaying the features, depending on their type
-                     * and properties.
-                     */
-                    styleForOverlay: function(overlay) {
-                        if (feature.feature_type === "opening") {
-                            overlay.style.strokeColor = "rgb(255, 255, 255)";
-                        }
-                        if (feature.feature_type === "unit") {
-                            overlay.style.fillOpacity = 1;
-                            overlay.style.strokeColor = "rgb(190, 190, 190)";
-                            // if non public, show units in gray
-                            if (feature.properties.category === "nonpublic")
-                                overlay.style.fillColor = "rgb(210, 210, 210)";
-                            // if walkway, show units in white
-                            else if (feature.properties.category === "walkway")
-                                overlay.style.fillColor = "rgb(255, 255, 255)";
-                            // if elevator, show units in light blue
-                            else if (feature.properties.category === "elevator")
-                                overlay.style.fillColor = "rgb(205, 220, 229)";
-                            // if restroom, show units in light purple
-                            else if (/^restroom/.test(feature.properties.category))
-                                overlay.style.fillColor = "rgb(231, 220, 237)";
-                            else if (feature.properties.category === "room")
-                                overlay.style.fillColor = "rgb(238, 238, 238)";
-                            else
-                                overlay.style.fillColor = "rgb(230, 230, 230)";
-                        }
-                        return overlay.style;
-                    },
-                    itemForPoint: function(coordinate, geoJSON) {
-                        var name = (feature.properties.name || {}).en || feature.properties.category || feature.id;
-                        var options = {
-                            title: name,
-                            clusteringIdentifier: feature.properties.category,
-                            displayPriority: feature.properties.category === "exhibit" ? 500 : 250,
-                            anchorOffset: new DOMPoint(0, -6),
-                            size: { width: 12, height: 12 },
-                            // The `data` field allows custom data to be associated with the annotation.
-                            data: { showTitle: false, category: feature.properties.category }
-                        };
-
-                        if (/t-rex/i.test(name))
-                            options.subtitle = "🦖";
-                        else if (/bone hall/i.test(name))
-                            options.subtitle = "☠";
-                        else if (/sauropod/i.test(name))
-                            options.subtitle = "🦕";
-
-                        return new mapkit.Annotation(coordinate, createAnnotationElement, options);
-                    },
-                    geoJSONDidComplete: function(itemCollection) {
-                        if (itemCollection)
-                            mapItems.push(itemCollection);
-                    },
-                    geoJSONDidError: function(err) {
-                        console.error(err);
-                    }
-                });
-            });
-
-            /* An `Occupant` feature models a business in a building; it does not have a geometry and
-             * therefore has no coordinates.
-             * To locate an occupant on the indoor map, use the associated anchor to specify its location.
-             */
-            occupantsWithAnchor.forEach(function(occupantWithAnchor) {
-                var anchor = occupantWithAnchor.anchor,
-                    occupant = occupantWithAnchor.occupant;
-
-                mapkit.importGeoJSON(anchor, {
-                    itemForPoint: function(coordinate, geoJSON) {
-                        var name = (occupant.properties.name || {}).en || occupant.properties.category || occupant.id;
-                        var options = {
-                            title: name,
-                            clusteringIdentifier: occupant.properties.category,
-                            anchorOffset: new DOMPoint(0, -6),
-                            size: { width: 12, height: 12 },
-                            displayPriority: 500,
-                            data: { category: occupant.properties.category, showTitle: true }
-                        }
-                        if (occupant.properties.category === "restaurant")
-                            options.subtitle = "🍲";
-                        return new mapkit.Annotation(coordinate, createAnnotationElement, options);
-                    },
-                    geoJSONDidComplete: function(itemCollection) {
-                        mapItems.push(itemCollection);
-                    },
-                    geoJSONDidError: function(err) {
-                        console.error(err);
-                    }
-                });
-            });
-
-            return mapItems;
-        }
-
-        var itemsByOrdinal = {};
-        function showOrdinal(ordinal, previousOrdinal) {
-            /*
-            var testing = map;
-
-            var MarkerAnnotation = mapkit.MarkerAnnotation,
-            clickAnnotation;
-        var sfo = new mapkit.Coordinate(37.616934, -122.383790),
-            work = new mapkit.Coordinate(37.3349, -122.0090201);
-
-        var sfoAnnotation = new MarkerAnnotation(sfo, { color: "#f4a56d", title: "SFO", glyphText: "✈️" });
-        var workAnnotation = new MarkerAnnotation(work);
-        workAnnotation.color = "#969696"; 
-        workAnnotation.title = "Work";
-        workAnnotation.subtitle = "Apple Park";
-        workAnnotation.selected = "true";
-        workAnnotation.glyphText = "";
-        */
-        //previousOrdinal = 0;
-        console.log("before show", itemsByOrdinal[ordinal]);
-        
-        //map.showItems([sfoAnnotation,workAnnotation]);
-        console.log("after show");
-
-            console.log("map", map);
-
-            if (ordinal === previousOrdinal)
-                return;
-            if (previousOrdinal in itemsByOrdinal)
-                map.removeItems(itemsByOrdinal[previousOrdinal]);
-            if (!(ordinal in itemsByOrdinal) ){
-                console.log("third if");
-                itemsByOrdinal[ordinal] = createItemsForOrdinal(ordinal);
-                previousOrdinal = 0;
-            }
-
-            if (previousOrdinal === undefined){
-                /* The `showItems` function adds the MapKit items to the map and adjusts the region,
-                 * so the venue is at the center of the map view.
-                 */
-
-                console.log("before error", itemsByOrdinal[ordinal], ordinal);
-                map.showItems(itemsByOrdinal[ordinal]);
-                console.log("after error", map);
-
-              }
-            else {
-              console.log("map adding items", map);
-              map.addItems(itemsByOrdinal[ordinal]);
-              //console.log("after add", map.showItems(itemsByOrdinal[ordinal]));
-            }
-
-        }
-        var levelPicker = new LevelPicker(archive, showOrdinal);
-        levelPicker.selectOrdinal(1);
-        console.log("here", archive);
-        
-    });
-
-    function createAnnotationElement(coordinate, options) {
-        var div = document.createElement("div");
-        div.className = "circle-annotation " + options.data.category + "-annotation";
-        if (options.data.showTitle) {
-            var title = document.createElement("div")
-            title.className = "circle-annotation-title";
-            title.textContent = options.title;
-            div.appendChild(title);
-        }
-        return div;
-    };
-
-</script>
-
+            
 </dom-module>
