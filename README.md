@@ -5,11 +5,11 @@
 
 add contact for indoor email-->
 
-In this code pattern, we show how to integrate Apple Indoor Maps within TRIRIGA.
+In this code pattern, we show how to integrate Apple Indoor Maps within the TRIRIGA Locate perceptive web app.
 
-This is targeted towards TRIRIGA users to solve wayfinding issues throughout a building that impact their workplace experience. Apple Indoor Maps utlizizes your existing Wi-Fi network to enable GPS-level location accuracy throughout a given space.
+This is targeted towards TRIRIGA users to solve wayfinding issues throughout a building that impact their workplace experience. Apple Indoor Maps utilizes existing Wi-Fi network signal patterns to enable accurate location positioning inside a building. By integrating this with IBM TRIRIGA workplace experience applications, users can know exactly where they are, and where they need to get to, within a building.
 
-When the user has completed this Code Pattern, they will understand how they can turn their existing floor plans into an interactive indoor experience with Apple Maps, all within their TRIRIGA instance.
+When the user has completed this code pattern, they will understand how to turn their existing floor plans into an interactive indoor experience with Apple Indoor Maps integrated into their TRIRIGA perceptive web apps.
 
 ![Indoor Maps](images/Littleton_Floor2_bluedot_close.png)
 
