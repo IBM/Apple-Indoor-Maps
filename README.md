@@ -58,7 +58,7 @@ Follow these steps to setup and run this Code Pattern.
 4. [Clone Apple-Indoor-Maps repository from github](#4-Clone-Apple-Indoor-Maps-repository-from-Github)
 5. [Push Apple Map element to the TRIRIGA server](#5-Push-Apple-Map-element-to-the-TRIRIGA-server)
 6. [Convert autocad floor plans to IMDF geojson with Safe FME workbench](#6-Convert-autocad-floor-plans-to-IMDF-geojson-with-Safe-FME-workbench)
-7. [Apple developer account created private key created for jwt token](#7-Apple-developer-account-created-private-key-created-for-jwt-token)
+7. [Create private key for jwt token using Apple developer account](#7-Create-private-key-for-jwt-token-using-Apple-developer-account)
 8. [Enable Wi-Fi Fingerprinting](#8-Enable-Wi-Fi-Fingerprinting)
 9. [Test final product](#9-Test-final-product)
 
@@ -157,11 +157,14 @@ Signing Out Of TRIRIGA [success]
 
 This step is not needed if you are using the Dino Demo floor plans.
 
-If you have your own floor plans reach out to [Safe FME](https://www.safe.com/about/contact/) to construct a workbench that will convert your AutoCAD files to IMDF.
+If you have your own floor plans reach out to [Safe FME](https://www.safe.com/about/contact/) to construct a workbench that will convert your AutoCAD files to an IMDF dataset, which is a folder of geojson files. These geojson files will be used in [Step 8](#8-Enable-Wi-Fi-Fingerprinting). 
 
 ![Indoor Maps](images/fme_work.png)
-## 7. Apple developer account created private key created for jwt token
-Enter your account information where applicable.
+## 7. Create private key for jwt token using Apple developer account
+Before generating a token you need a Maps Identifier and Private Key associated with it. Steps can be found on Apple's website [here](https://developer.apple.com/documentation/mapkitjs/creating_a_maps_identifier_and_a_private_key).
+
+Once completed, enter your account information where applicable and run the python program to generate the token.
+
 ```python
 import jwt
 import time
