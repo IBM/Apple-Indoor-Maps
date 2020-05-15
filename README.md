@@ -1,4 +1,4 @@
-# Integration of Apple Maps within TRIRIGA
+# Integration of Apple Indoor Maps within IBM TRIRIGA
 
 <!--- https://guides.github.com/features/mastering-markdown/
 
