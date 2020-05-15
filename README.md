@@ -157,7 +157,7 @@ Signing Out Of TRIRIGA [success]
 
 This step is not needed if you are using the Dino Demo floor plans.
 
-If you have your own floor plans reach out to Safe FME to construct a workbench that will convert your AutoCAD files to IMDF.
+If you have your own floor plans reach out to [Safe FME](https://www.safe.com/about/contact/) to construct a workbench that will convert your AutoCAD files to IMDF.
 
 ![Indoor Maps](images/fme_work.png)
 ## 7. Apple developer account created private key created for jwt token
