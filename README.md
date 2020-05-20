@@ -11,7 +11,7 @@ This is targeted towards TRIRIGA users to solve wayfinding issues throughout a b
 
 When the user has completed this code pattern, they will understand how to turn their existing floor plans into an interactive indoor experience with Apple Indoor Maps integrated into their TRIRIGA perceptive web apps.
 
-![Demo Video](https://j.gifs.com/VAzNLW.gif)
+![demo](images/demo.gif)
 
 ![Indoor Maps](images/Littleton_Floor2_bluedot_close.png)
 
@@ -222,7 +222,7 @@ When all steps are complete download "geo-referenced IMDF" and put those files i
 
 [Link to full demo video](https://www.youtube.com/watch?v=WQDYlHRPDkg&feature=youtu.be)
 
-![Demo Video](https://j.gifs.com/VAzNLW.gif)
+![demo](images/demo.gif)
 
 Check out "tripage-appleMap.html" in the apple-map-element folder for code snippets of annotations and additional zoom levels.
 
